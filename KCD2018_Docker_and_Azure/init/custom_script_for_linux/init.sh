@@ -35,3 +35,6 @@ chmod -R g+w /var/www/html
 cd ~
 curl -O https://raw.githubusercontent.com/krazure/hands-on-lab/master/KCD2018_Docker_and_Azure/init/Dockerfile/Dockerfile
 docker build -t wpinit .
+
+cd /var/www
+curl -O https://raw.githubusercontent.com/krazure/hands-on-lab/master/KCD2018_Docker_and_Azure/script/Dockerfile/Dockerfile
