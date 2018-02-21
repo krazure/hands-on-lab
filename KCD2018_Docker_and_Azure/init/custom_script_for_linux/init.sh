@@ -26,6 +26,15 @@ sed -i -e 's/database_name_here/wpdatabase/' /tmp/wordpress/wp-config.php
 sed -i -e 's/username_here/wpsqladmin/' /tmp/wordpress/wp-config.php
 sed -i -e 's/password_here/Pa55w0rd/' /tmp/wordpress/wp-config.php
 
+sed -i -e '83a\\' /tmp/wordpress/wp-config.php
+sed -i -e '84a\\define("FS_METHOD", "direct");' /tmp/wordpress/wp-config.php
+sed -i -e '85a\\define("WP_HOME", "http://". filter_input(INPUT_SERVER, "HTTP_HOST", FILTER_SANITIZE_STRING));' /tmp/wordpress/wp-config.php
+sed -i -e '86a\\define("WP_SITEURL", "http://". filter_input(INPUT_SERVER, "HTTP_HOST", FILTER_SANITIZE_STRING));' /tmp/wordpress/wp-config.php
+sed -i -e '87a\\define("WP_CONTENT_URL", "/wp-content");' /tmp/wordpress/wp-config.php
+sed -i -e '88a\\define("DOMAIN_CURRENT_SITE", filter_input(INPUT_SERVER, "HTTP_HOST", FILTER_SANITIZE_STRING));' /tmp/wordpress/wp-config.php
+sed -i -e '89a\\' /tmp/wordpress/wp-config.php
+sed -i -e '90a\\' /tmp/wordpress/wp-config.php
+
 # Wordpress 복사
 rm -rf /var/www/html
 sudo cp -a /tmp/wordpress/. /var/www/html
