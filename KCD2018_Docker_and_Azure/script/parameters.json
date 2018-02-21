@@ -33,7 +33,7 @@
             "value": "30"
         },
         "adminPublicKey": {
-            "value": "---- BEGIN SSH2 PUBLIC KEY ----\nComment: \"rsa-key-20170206\"\nAAAAB3NzaC1yc2EAAAABJQAAAQEAhfgMj4euCDaxij3di4eu2LikdxauGFRIcvOD\n79OWWmEYGyvGKEajk0XIcN/RPG9SPcH0rLkbcTx5bhoUs6pv8yBMj+oxd2W9DXNh\nnfs7A6RvRvvpgNzwcvOzhxDyZkP6Th9J7OxZ99qbmzIEu2tE1sHt9uepZWqsga9h\nl1G8PUqqtY3ZtthoTgg35F0TdLOkjgoW4CDvmATAUWp46EYbH/WkRzRTU+Ws6Zd+\nDMV5dF+G/+eSD49zfCyMhbqwKY2YTT/0MfZsYvvSsEcpTZWFubx1fP1WYCvYzSs1\nK5/4q1whWpuerKhvb1OynOITzO9cQ1GSlq38W+OCGz3Lb3/oEw==\n---- END SSH2 PUBLIC KEY ----"
+            "value": "---- BEGIN SSH2 PUBLIC KEY ----\nComment: \"rsa-key-20180221\"\nAAAAB3NzaC1yc2EAAAABJQAAAQEAury/6uRwkvPPYk3Pefl++t20H+q5eX+KwuhE\nSbtJElh42u1HmYppL0yAlVmkcv8NH+uwliy4aDCM2kYaqtWgOuNa6UhBQhCS9W3O\nskPdC5XdXC26vNyBY3t2pLRGg6qhD9XwQodri8P1mBntRLfjyj7BdLGtEGFDrszG\nau6qcHJg96Gt9r7DRt0Eze3qOpIDxj74k59QMYMLM4OttWCHM9l6lXLWjeB3Oh21\n7vmu8YTVotvmJ8RwP/9PX1Djt607guEKben8Cg6MdBubyUnRCztyW/rFj3sMy8ki\nJoJCxnhlbMDd4FdCTXSj+r1wFvYj3AIs0IYouY+B18tcnWWeUQ==\n---- END SSH2 PUBLIC KEY ----"
         },
         "addressPrefix": {
             "value": "10.0.0.0/24"
