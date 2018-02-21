@@ -22,6 +22,9 @@ touch /tmp/wordpress/.htaccess
 chmod 660 /tmp/wordpress/.htaccess
 cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
 mkdir /tmp/wordpress/wp-content/upgrade
+sed -i -e 's/database_name_here/wpdatabase/' /tmp/wordpress/wp-config.php
+sed -i -e 's/username_here/wpsqladmin/' /tmp/wordpress/wp-config.php
+sed -i -e 's/password_here/Pa55w0rd/' /tmp/wordpress/wp-config.php
 
 # Wordpress 복사
 rm -rf /var/www/html

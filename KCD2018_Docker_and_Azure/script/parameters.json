@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "mysqladminID": {
-            "value": "kcd2018"
+            "value": "wpsqladmin"
         },
         "mysqladminPW": {
             "value": "Pa55w0rd"
@@ -27,13 +27,13 @@
             "value": "Standard_F1s"
         },
         "adminUsername": {
-            "value": "kcd2018"
+            "value": "wpadmin"
         },
         "diskSizeGB": {
             "value": "30"
         },
         "adminPublicKey": {
-            "value": "---- BEGIN SSH2 PUBLIC KEY ----            AAAAB3NzaC1yc2EAAAABJQAAAQEAhfgMj4euCDaxij3di4eu2LikdxauGFRIcvOD            79OWWmEYGyvGKEajk0XIcN/RPG9SPcH0rLkbcTx5bhoUs6pv8yBMj+oxd2W9DXNh            nfs7A6RvRvvpgNzwcvOzhxDyZkP6Th9J7OxZ99qbmzIEu2tE1sHt9uepZWqsga9h            l1G8PUqqtY3ZtthoTgg35F0TdLOkjgoW4CDvmATAUWp46EYbH/WkRzRTU+Ws6Zd+            DMV5dF+G/+eSD49zfCyMhbqwKY2YTT/0MfZsYvvSsEcpTZWFubx1fP1WYCvYzSs1            K5/4q1whWpuerKhvb1OynOITzO9cQ1GSlq38W+OCGz3Lb3/oEw==            ---- END SSH2 PUBLIC KEY ----                        "
+            "value": "---- BEGIN SSH2 PUBLIC KEY ----\nComment: \"rsa-key-20170206\"\nAAAAB3NzaC1yc2EAAAABJQAAAQEAhfgMj4euCDaxij3di4eu2LikdxauGFRIcvOD\n79OWWmEYGyvGKEajk0XIcN/RPG9SPcH0rLkbcTx5bhoUs6pv8yBMj+oxd2W9DXNh\nnfs7A6RvRvvpgNzwcvOzhxDyZkP6Th9J7OxZ99qbmzIEu2tE1sHt9uepZWqsga9h\nl1G8PUqqtY3ZtthoTgg35F0TdLOkjgoW4CDvmATAUWp46EYbH/WkRzRTU+Ws6Zd+\nDMV5dF+G/+eSD49zfCyMhbqwKY2YTT/0MfZsYvvSsEcpTZWFubx1fP1WYCvYzSs1\nK5/4q1whWpuerKhvb1OynOITzO9cQ1GSlq38W+OCGz3Lb3/oEw==\n---- END SSH2 PUBLIC KEY ----"
         },
         "addressPrefix": {
             "value": "10.0.0.0/24"
