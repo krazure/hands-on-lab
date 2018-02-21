@@ -75,7 +75,8 @@
                 "version": "[parameters('version')]",
                 "administratorLogin": "[parameters('mysqladminID')]",
                 "administratorLoginPassword": "[parameters('mysqladminPW')]",
-                "storageMB": "[parameters('skuSizeMB')]"
+                "storageMB": "[parameters('skuSizeMB')]",
+                "sslEnforcement": "Disabled"
             },
             "sku": {
                 "name": "[parameters('skuName')]",
