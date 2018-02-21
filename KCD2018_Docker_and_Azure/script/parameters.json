@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "mysqladminID": {
+            "value": "kcd2018"
+        },
+        "mysqladminPW": {
+            "value": "Pa55w0rd"
+        },
+        "skuCapacityDTU": {
+            "value": 50
+        },
+        "skuName": {
+            "value": "MYSQLB100"
+        },
+        "skuSizeMB": {
+            "value": 51200
+        },
+        "skuTier": {
+            "value": "Basic"
+        },
+        "version": {
+            "value": "5.7"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_F1s"
+        },
+        "adminUsername": {
+            "value": "kcd2018"
+        },
+        "diskSizeGB": {
+            "value": "30"
+        },
+        "adminPublicKey": {
+            "value": "---- BEGIN SSH2 PUBLIC KEY ----            AAAAB3NzaC1yc2EAAAABJQAAAQEAhfgMj4euCDaxij3di4eu2LikdxauGFRIcvOD            79OWWmEYGyvGKEajk0XIcN/RPG9SPcH0rLkbcTx5bhoUs6pv8yBMj+oxd2W9DXNh            nfs7A6RvRvvpgNzwcvOzhxDyZkP6Th9J7OxZ99qbmzIEu2tE1sHt9uepZWqsga9h            l1G8PUqqtY3ZtthoTgg35F0TdLOkjgoW4CDvmATAUWp46EYbH/WkRzRTU+Ws6Zd+            DMV5dF+G/+eSD49zfCyMhbqwKY2YTT/0MfZsYvvSsEcpTZWFubx1fP1WYCvYzSs1            K5/4q1whWpuerKhvb1OynOITzO9cQ1GSlq38W+OCGz3Lb3/oEw==            ---- END SSH2 PUBLIC KEY ----                        "
+        },
+        "addressPrefix": {
+            "value": "10.0.0.0/24"
+        },
+        "subnetPrefix": {
+            "value": "10.0.0.0/24"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        }
+    }
+}

@@ -1,46 +1,255 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "storageSKU": {
-        "type": "string",
-        "allowedValues": [
-          "Standard_LRS",
-          "Standard_ZRS",
-          "Standard_GRS",
-          "Standard_RAGRS",
-          "Premium_LRS"
-        ],
-        "defaultValue": "Standard_LRS",
-        "metadata": {
-          "description": "The type of replication to use for the storage account."
-        }
-      },   
-      "storageNamePrefix": {
-        "type": "string",
-        "maxLength": 11,
-        "defaultValue": "storage",
-        "metadata": {
-          "description": "The value to use for starting the storage account name. Use only lowercase letters and numbers."
-        }
-      }
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "mysqladminID": {
+      "minLength":1,
+      "type": "string"
     },
-    "variables": {
-      "storageName": "[concat(toLower(parameters('storageNamePrefix')), uniqueString(resourceGroup().id))]"
+    "mysqladminPW": {
+      "minLength":8,
+      "maxLength":128,
+      "type": "securestring"
     },
-    "resources": [
+    "skuCapacityDTU": {
+      "defaultValue":50,
+      "type": "int"
+    },
+    "skuName": {
+      "defaultValue":"MYSQLB100",
+      "type": "string"
+    },
+    "skuSizeMB": {
+      "defaultValue":51200,
+      "type": "int"
+    },
+    "skuTier": {
+      "defaultValue":"Basic",
+      "type": "string"
+    },
+    "version": {
+      "defaultValue":"5.7",
+      "type": "string"
+    },
+    "virtualMachineSize": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string"
+    },
+    "diskSizeGB": {
+      "defaultValue":30,
+      "type": "string"
+    },
+    "adminPublicKey": {
+      "type": "string"
+    },
+    "addressPrefix": {
+      "type": "string"
+    },
+    "subnetPrefix": {
+      "type": "string"
+    },
+    "publicIpAddressType": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "serverName": "[concat(resourceGroup().name, 'mysql')]",
+    "virtualMachineName": "[concat(resourceGroup().name, 'vm')]",
+    "virtualNetworkName": "[concat(resourceGroup().name, 'vnet')]",
+    "networkInterfaceName": "[concat(resourceGroup().name, 'nic')]",
+    "networkSecurityGroupName": "[concat(resourceGroup().name, 'nsg')]",
+    "publicIpAddressName": "[concat(resourceGroup().name, 'pip')]",
+    "subnetName": "[concat(resourceGroup().name, 'subnet')]",
+    "vnetID": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2017-04-30-preview",
+      "kind": "",
+      "location": "[resourceGroup().location]",
+      "name": "[variables('serverName')]",
+      "properties": {
+          "version": "[parameters('version')]",
+          "administratorLogin": "[parameters('mysqladminID')]",
+          "administratorLoginPassword": "[parameters('mysqladminPW')]",
+          "storageMB": "[parameters('skuSizeMB')]"
+      },
+      "sku": {
+          "name": "[parameters('skuName')]",
+          "tier": "[parameters('skuTier')]",
+          "capacity": "[parameters('skuCapacityDTU')]",
+          "size": "[parameters('skuSizeMB')]",
+          "family": "SkuFamily"
+      },
+      "type": "Microsoft.DBforMySQL/servers"
+  },
       {
-        "name": "[variables('storageName')]",
-        "type": "Microsoft.Storage/storageAccounts",
-        "apiVersion": "2016-01-01",
-        "sku": {
-          "name": "[parameters('storageSKU')]"
-        },
-        "kind": "Storage",
+          "name": "[variables('virtualMachineName')]",
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2016-04-30-preview",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
+          ],
+          "properties": {
+              "osProfile": {
+                  "computerName": "[variables('virtualMachineName')]",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "linuxConfiguration": {
+                      "disablePasswordAuthentication": "true",
+                      "ssh": {
+                          "publicKeys": [
+                              {
+                                  "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                                  "keyData": "[parameters('adminPublicKey')]"
+                              }
+                          ]
+                      }
+                  }
+              },
+              "hardwareProfile": {
+                  "vmSize": "[parameters('virtualMachineSize')]"
+              },
+              "storageProfile": {
+                  "imageReference": {
+                      "publisher": "Canonical",
+                      "offer": "UbuntuServer",
+                      "sku": "16.04-LTS",
+                      "version": "latest"
+                  },
+                  "osDisk": {
+                      "createOption": "fromImage",
+                      "diskSizeGB": "[parameters('diskSizeGB')]",
+                      "managedDisk": {
+                          "storageAccountType": "Premium_LRS"
+                      }
+                  },
+                  "dataDisks": []
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                      }
+                  ]
+              }
+          }
+      },
+      {
+        "name": "[concat(variables('virtualMachineName'),'/userscript')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
         "location": "[resourceGroup().location]",
-        "tags": {},
-        "properties": {}
+        "apiVersion": "2015-06-15",
+        "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('virtualMachineName'))]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.Azure.Extensions",
+            "type": "CustomScript",
+            "typeHandlerVersion": "2.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "https://raw.githubusercontent.com/krazure/hands-on-lab/master/KCD2018_Docker_and_Azure/init/custom_script_for_linux/init.sh"
+              ],
+              "commandToExecute": "sh init.sh"
+            }
+        }
+      },
+      {
+          "name": "[variables('virtualNetworkName')]",
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "2017-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "[parameters('addressPrefix')]"
+                  ]
+              },
+              "subnets": [
+                  {
+                      "name": "[variables('subnetName')]",
+                      "properties": {
+                          "addressPrefix": "[parameters('subnetPrefix')]"
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "[variables('networkInterfaceName')]",
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2016-09-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+              "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]",
+              "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+          ],
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipconfig1",
+                      "properties": {
+                          "subnet": {
+                              "id": "[variables('subnetRef')]"
+                          },
+                          "privateIPAllocationMethod": "Dynamic",
+                          "publicIpAddress": {
+                              "id": "[resourceId('resourceGroup().name','Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
+                          }
+                      }
+                  }
+              ],
+              "networkSecurityGroup": {
+                  "id": "[resourceId('resourceGroup().name', 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+              }
+          }
+      },
+      {
+          "name": "[variables('publicIpAddressName')]",
+          "type": "Microsoft.Network/publicIpAddresses",
+          "apiVersion": "2017-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+              "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+          },
+          "sku": {
+              "name": "Basic"
+          }
+      },
+      {
+          "name": "[variables('networkSecurityGroupName')]",
+          "type": "Microsoft.Network/networkSecurityGroups",
+          "apiVersion": "2017-06-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+              "securityRules": [
+                  {
+                      "name": "default-allow-ssh",
+                      "properties": {
+                          "priority": 1000,
+                          "protocol": "TCP",
+                          "access": "Allow",
+                          "direction": "Inbound",
+                          "sourceAddressPrefix": "*",
+                          "sourcePortRange": "*",
+                          "destinationAddressPrefix": "*",
+                          "destinationPortRange": "22"
+                      }
+                  }
+              ]
+          }
       }
-    ],
-    "outputs": {  }
+  ],
+  "outputs": {
+      "adminUsername": {
+          "type": "string",
+          "value": "[parameters('adminUsername')]"
+      }
   }
+}
