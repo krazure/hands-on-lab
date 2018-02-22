@@ -42,6 +42,9 @@ sudo cp -a /tmp/wordpress/. /var/www/html
 chown -R www-data:www-data /var/www/html
 chmod -R g+w /var/www/html
 
+# Apache service restart
+service apache2 restart
+
 # Docker init
 cd ~
 curl -O https://raw.githubusercontent.com/krazure/hands-on-lab/master/KCD2018_Docker_and_Azure/init/Dockerfile/Dockerfile
