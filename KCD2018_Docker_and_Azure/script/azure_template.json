@@ -180,10 +180,29 @@
                 "typeHandlerVersion": "2.0",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
-                "fileUris": [
-                    "https://raw.githubusercontent.com/krazure/hands-on-lab/master/KCD2018_Docker_and_Azure/init/custom_script_for_linux/init.sh"
-                ],
-                "commandToExecute": "sh init.sh"
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/krazure/hands-on-lab/master/KCD2018_Docker_and_Azure/init/custom_script_for_linux/init.sh"
+                    ],
+                    "commandToExecute": "sh init.sh"
+                }
+            }
+        },
+        {
+            "name": "[concat(variables('virtualMachineName'),'/userscript1')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[concat('Microsoft.DBforMySQL/servers/', variables('serverName'))]",
+                "userscript"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "commandToExecute": "[concat('sed -i -e \"s/username_here/wpsqladmin@', variables('serverName'), '/\" /var/www/html/wp-config.php && sed -i -e \"s/localhost/', variables('serverName'),'.mysql.database.azure.com/\" /var/www/html/wp-config.php')]"
                 }
             }
         },
