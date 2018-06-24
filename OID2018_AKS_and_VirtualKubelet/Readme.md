@@ -1,4 +1,4 @@
-﻿# Azure에서 Kubernetes Service를 구축하고 Virtual Kubelet으로 컨테이너 자원 빌려오기
+# Azure에서 Kubernetes Service를 구축하고 Virtual Kubelet으로 컨테이너 자원 빌려오기
 
 이 Hands-on-Lab 모듈의 내용을 따라서 Azure 상에서 관리되는 Kubernetes 클러스터를 배포하고, ACI 기반 가상 노드를 추가하여 확장성있는 Kubernetes 클러스터의 기능을 체험해보실 수 있습니다.
 
@@ -269,7 +269,7 @@ Kubernetes 클러스터에서 가장 큰 장점은 노드의 추가와 제거를
 
 ```
 az aks scale -g my-aks-test -n rkttucluster --node-count 3
-``
+```
 
 2. 노드의 구동 상태를 확인하기 위하여 아래 명령을 입력합니다.
 
