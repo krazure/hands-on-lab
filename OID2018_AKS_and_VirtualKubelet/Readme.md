@@ -1,3 +1,5 @@
+﻿시작하기 전에: 이 모듈 이외에 OpenInfra Days 2018 오전 세션에 있었던 공동 워크샵의 발표 자료는 [slides.pdf](slides.pdf) 파일을 참고하여 주십시오.
+
 # Azure에서 Kubernetes Service를 구축하고 Virtual Kubelet으로 컨테이너 자원 빌려오기
 
 이 Hands-on-Lab 모듈의 내용을 따라서 Azure 상에서 관리되는 Kubernetes 클러스터를 배포하고, ACI 기반 가상 노드를 추가하여 확장성있는 Kubernetes 클러스터의 기능을 체험해보실 수 있습니다.
@@ -469,5 +471,3 @@ kubectl get pods -o wide --watch
 4. `IP` 컬럼에 새로 만들어진 Pod의 주소가 나타나면 웹 브라우저를 열고 접속해봅니다.
 
 ![실행 화면 3](003.png)
-
-[발표 자료 PDF 다운로드](slides.pdf)
