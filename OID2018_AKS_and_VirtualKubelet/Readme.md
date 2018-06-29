@@ -2,6 +2,8 @@
 
 이 Hands-on-Lab 모듈의 내용을 따라서 Azure 상에서 관리되는 Kubernetes 클러스터를 배포하고, ACI 기반 가상 노드를 추가하여 확장성있는 Kubernetes 클러스터의 기능을 체험해보실 수 있습니다.
 
+NOTE: 아래 예제 명령어와 코드에서 rkttu라는 문자열은 하나도 빠짐없이 여러분이 사용하실 고유한 이름으로 바꾸어주셔야 합니다. 리소스 그룹으로 격리되는 것과 별개로 이름은 전세계의 Azure 서비스에 유일한 이름이어야 합니다.
+
 ## 핸즈온랩을 시작하기 전에
 
 이 핸즈온랩 모듈을 진행하기 위하여 미리 준비해야 할 항목들은 다음과 같습니다.
@@ -152,13 +154,13 @@ docker images
 docker tag azure-vote-front:latest rkttu.azurecr.io/azure-vote-front:v1
 ```
 
-7. 추가한 태그의 이미지를 ACR로 전송하기 위하여 다음 명령을 입력합니다. `rkttu` 대신 여러분이 만든 ACR 이름을 입력합니다.
+6. 추가한 태그의 이미지를 ACR로 전송하기 위하여 다음 명령을 입력합니다. `rkttu` 대신 여러분이 만든 ACR 이름을 입력합니다.
 
 ```
 docker push rkttu.azurecr.io/azure-vote-front:v1
 ```
 
-8. 이미지가 잘 전달되었는지 확인하기 위하여 다음 명령을 입력합니다. `rkttu` 대신 여러분이 만든 ACR 이름을 입력합니다.
+7. 이미지가 잘 전달되었는지 확인하기 위하여 다음 명령을 입력합니다. `rkttu` 대신 여러분이 만든 ACR 이름을 입력합니다.
 
 ```
 az acr repository list --name rkttu
@@ -205,13 +207,13 @@ kubectl get nodes
 az aks show -g my-aks-test -n rkttucluster --query "servicePrincipalProfile.clientId" -o tsv
 ```
 
-6. 이어서 ACR의 리소스 ID 값을 확인하기 위하여 아래 명령을 실행하고 결과값을 메모합니다. `rkttu` 대신 여러분의 ACR 이름을 입력합니다.
+8. 이어서 ACR의 리소스 ID 값을 확인하기 위하여 아래 명령을 실행하고 결과값을 메모합니다. `rkttu` 대신 여러분의 ACR 이름을 입력합니다.
 
 ```
 az acr show -n rkttu -g my-aks-test --query "id" -o tsv
 ```
 
-7. 5단계에서 확인한 값을 아래의 `CLIENT_ID` 부분 대신 넣고, 6단계에서 확인한 값을 아래의 `ACR_ID` 부분 대신 넣어 명령을 실행합니다.
+9. 7단계에서 확인한 값을 아래의 `CLIENT_ID` 부분 대신 넣고, 8단계에서 확인한 값을 아래의 `ACR_ID` 부분 대신 넣어 명령을 실행합니다.
 
 ```
 az role assignment create --assignee "CLIENT_ID" --role Reader --scope "ACR_ID"
@@ -467,3 +469,5 @@ kubectl get pods -o wide --watch
 4. `IP` 컬럼에 새로 만들어진 Pod의 주소가 나타나면 웹 브라우저를 열고 접속해봅니다.
 
 ![실행 화면 3](003.png)
+
+[발표 자료 PDF 다운로드](slides.pdf)
